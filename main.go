@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"github.com/go-redis/redis"
 	"log"
-	"gopkg.in/cheggaaa/pb.v1"
+//	"gopkg.in/cheggaaa/pb.v1"
 	"strings"
 	"time"
 	"sort"
@@ -106,7 +106,9 @@ func main() {
 	if flagLimit > 0 && flagLimit < dbsize {
 		dbsize = flagLimit
 	}
-	bar := pb.StartNew(dbsize)
+	//bar := pb.StartNew(dbsize)
+	fmt.Printf("Total keys: %d\n========================\n", dbsize)
+
 
 	// Read keys
 	cursor := uint64(0)
@@ -138,13 +140,13 @@ func main() {
 			}
 		}
 
-		bar.Add(len(keys))
+		//bar.Add(len(keys))
 
 		if cursor == 0 {
 			break;
 		}
 
-		if flagLimit > 0 && bar.Get() >= int64(flagLimit) {
+		if flagLimit > 0 {
 			break;
 		}
 
@@ -156,11 +158,11 @@ func main() {
 	// Since the number of items returned from a cursor is up to the count it's
 	// possible for the progress bar position to be greater than the total (when
 	// using -limit). So just neatly adjust for that...
-	if bar.Get() > bar.Total {
-		bar.SetTotal64(bar.Get())
-	}
+	//if bar.Get() > bar.Total {
+	//	bar.SetTotal64(bar.Get())
+	//}
 
-	bar.FinishPrint("")
+	//bar.FinishPrint("")
 
 	printResults()
 }
